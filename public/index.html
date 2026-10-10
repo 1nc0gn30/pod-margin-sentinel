@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POD Margin Sentinel - Print-on-Demand Profit &amp; Break-Even Simulator</title>
+  <meta name="description" content="Autonomous real-time profit sentinel, break-even matrix, and 2026 marketplace fee simulator for Etsy, Shopify, and TikTok Shop print-on-demand sellers.">
+  
+  <!-- OpenGraph Meta -->
+  <meta property="og:title" content="POD Margin Sentinel - Print-on-Demand Profit &amp; Break-Even Simulator">
+  <meta property="og:description" content="Calculate real net profits after Etsy 6.5% transaction, 3% processing, and 15% Offsite Ads fees with zero fake work.">
+  <meta property="og:url" content="https://pod-margin-sentinel.nullai.tech/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://pod-margin-sentinel.nullai.tech/favicon.svg">
+
+  <!-- Twitter Meta -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@1nc0gn30">
+  <meta name="twitter:creator" content="@1nc0gn30">
+  <meta name="twitter:image" content="https://pod-margin-sentinel.nullai.tech/favicon.svg">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+
+  <!-- Schema.org AEO / SEO Graph -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://pod-margin-sentinel.nullai.tech/#app",
+        "name": "POD Margin Sentinel",
+        "url": "https://pod-margin-sentinel.nullai.tech/",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "All modern web browsers",
+        "description": "Autonomous browser-based financial sentinel and break-even simulator for Print-on-Demand merchants across Etsy, Shopify, and TikTok Shop.",
+        "offers": {
+          "@type": "Offer",
+          "price": "19.00",
+          "priceCurrency": "USD",
+          "priceValidUntil": "2027-12-31",
+          "availability": "https://schema.org/InStock",
+          "url": "https://buy.stripe.com/5kA8wQ3rT6rS8h2dQQ"
+        },
+        "creator": {
+          "@type": "Person",
+          "name": "Neal Frazier",
+          "url": "https://nealfrazier.tech",
+          "sameAs": [
+            "https://github.com/1nc0gn30",
+            "https://nullai.tech"
+          ]
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://pod-margin-sentinel.nullai.tech/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How does POD Margin Sentinel calculate Etsy fees in 2026?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The engine implements the exact 2026 Etsy fee schedule: 6.5% transaction fee on total order revenue, 3% + $0.25 payment processing fee, $0.20 auto-renew listing fee, and an optional 15% or 12% Offsite Ads fee."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why is Offsite Ads calculation critical for POD sellers?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Etsy Offsite Ads takes an additional 15% of gross revenue when a sale originates from external ads. For apparel items with narrow margins, this often turns a projected 35% margin into a negative net loss unless priced with break-even buffer."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does this tool transmit store profit or pricing data to external servers?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. All financial arithmetic, break-even reverse solving, and coupon stress testing run 100% locally in your browser memory for complete creator privacy."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="/" class="brand-group">
+        <img src="/favicon.svg" alt="POD Margin Sentinel Shield Logo" width="34" height="34" class="brand-logo">
+        <span class="brand-title">POD Margin Sentinel</span>
+        <span class="version-badge">v1.0.0</span>
+      </a>
+      <div class="header-actions">
+        <span id="pro-badge" class="pro-active-badge">⭐ PRO ACTIVE</span>
+        <a href="#sentinel" class="btn btn-secondary btn-sm">Launch Sentinel</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sales Funnel Banner -->
+  <section class="sales-funnel-banner" aria-label="Founding Member Offer">
+    <div class="banner-content">
+      <span class="urgency-pill">FOUNDING SPRINT</span>
+      <span class="banner-text">
+        <strong>Instant Commercial License:</strong> Unlimited Bulk Pricing Matrices, Coupon Simulators &amp; Export.
+      </span>
+      <span class="banner-price">
+        <span class="banner-price-strike">$79</span>$19 Lifetime
+      </span>
+      <div class="banner-buttons">
+        <a href="https://buy.stripe.com/5kA8wQ3rT6rS8h2dQQ" target="_blank" rel="noopener" class="btn btn-primary btn-sm">
+          ⚡ Stripe Pay $19
+        </a>
+        <a href="https://depay.com/pay?integration=428790dd-7ad1-407c-8ecf-c048c77a4cb8&receiver=GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK&amount=19" target="_blank" rel="noopener" class="btn btn-solana btn-sm">
+          ◎ Solana $19
+        </a>
+        <button id="open-license-modal-btn" class="btn btn-link">Have a key?</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Container -->
+  <main class="main-container">
+    <!-- Hero Section with 60fps Kinetic Canvas -->
+    <section class="hero-section" aria-label="Hero Overview">
+      <canvas id="hero-canvas" class="hero-canvas-bg"></canvas>
+      <div class="hero-content">
+        <div class="hero-badge">⚡ THE SOVEREIGN MARGIN CHRONOMETER</div>
+        <h1 class="hero-title">Stop Flying Blind on Print-on-Demand Profits</h1>
+        <p class="hero-subtitle">
+          Marketplace commissions, gateway surcharges, and Etsy's 15% Offsite Ads kill unbuffered margins. Simulate exact dollar profit, break-even thresholds, and coupon safety in real time.
+        </p>
+        <div class="hero-stats-row">
+          <div class="hero-stat-item">
+            <span class="hero-stat-value">6.5% + 3%</span>
+            <span class="hero-stat-label">Etsy 2026 Core</span>
+          </div>
+          <div class="hero-stat-item">
+            <span class="hero-stat-value">15% Tier</span>
+            <span class="hero-stat-label">Offsite Ads Shield</span>
+          </div>
+          <div class="hero-stat-item">
+            <span class="hero-stat-value">100%</span>
+            <span class="hero-stat-label">In-Browser Utility</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sentinel Workspace Grid -->
+    <section id="sentinel" class="sentinel-grid" aria-label="Profit Sentinel Workspace">
+      <!-- Left Column: Controls & Presets -->
+      <div class="glass-panel">
+        <div class="panel-title">
+          <span>Cost &amp; Pricing Configuration</span>
+          <span style="font-size: 0.8rem; color: var(--gold-secondary);">Live Simulator</span>
+        </div>
+
+        <!-- Presets Carousel -->
+        <div class="presets-carousel">
+          <button class="preset-pill active" data-preset="gildan_18000">Gildan 18000</button>
+          <button class="preset-pill" data-preset="comfort_colors_1717">Comfort Colors 1717</button>
+          <button class="preset-pill" data-preset="bella_canvas_3001">Bella Canvas 3001</button>
+          <button class="preset-pill" data-preset="ceramic_mug_15oz">15oz Ceramic Mug</button>
+          <button class="preset-pill" data-preset="canvas_wrap">Canvas Wrap 16x20</button>
+          <button class="preset-pill" data-preset="tote_bag">Heavy Cotton Tote</button>
+          <button class="preset-pill" data-preset="digital_pack">Digital Wall Art</button>
+        </div>
+
+        <!-- Platform Fee Schedule Selector -->
+        <div style="font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; margin-bottom: 0.4rem; font-family: var(--font-mono);">
+          Target Marketplace Schedule
+        </div>
+        <div class="platform-selector-group">
+          <button class="platform-card-btn active" data-platform="etsy_organic">Etsy Organic</button>
+          <button class="platform-card-btn" data-platform="etsy_offsite_ads_15">Etsy Ads (15%)</button>
+          <button class="platform-card-btn" data-platform="shopify_payments">Shopify Direct</button>
+          <button class="platform-card-btn" data-platform="tiktok_shop">TikTok Shop</button>
+        </div>
+
+        <!-- Slider 1: Retail Price -->
+        <div class="input-row">
+          <div class="input-label-group">
+            <span class="input-label-text">Retail Price (Charged to Customer)</span>
+            <span id="display-retail" class="input-value-display">$34.99</span>
+          </div>
+          <input type="range" id="slider-retail" class="range-slider" min="5" max="120" step="0.5" value="34.99">
+        </div>
+
+        <!-- Slider 2: Wholesale Manufacturing Base -->
+        <div class="input-row">
+          <div class="input-label-group">
+            <span class="input-label-text">Wholesale Base Cost (Printify / Gelato)</span>
+            <span id="display-wholesale" class="input-value-display">$12.50</span>
+          </div>
+          <input type="range" id="slider-wholesale" class="range-slider" min="0" max="60" step="0.25" value="12.50">
+        </div>
+
+        <!-- Slider 3: Factory Shipping -->
+        <div class="input-row">
+          <div class="input-label-group">
+            <span class="input-label-text">Factory Shipping Cost</span>
+            <span id="display-shipping" class="input-value-display">$5.49</span>
+          </div>
+          <input type="range" id="slider-shipping" class="range-slider" min="0" max="25" step="0.25" value="5.49">
+        </div>
+
+        <!-- Slider 4: Shipping Charged to Customer -->
+        <div class="input-row">
+          <div class="input-label-group">
+            <span class="input-label-text">Shipping Charged to Buyer ($0 = Free Ship)</span>
+            <span id="display-charged-ship" class="input-value-display">$0.00</span>
+          </div>
+          <input type="range" id="slider-charged-ship" class="range-slider" min="0" max="15" step="0.5" value="0.00">
+        </div>
+
+        <!-- Slider 5: Coupon Discount -->
+        <div class="input-row">
+          <div class="input-label-group">
+            <span class="input-label-text">Promotional Discount Coupon</span>
+            <span id="display-discount" class="input-value-display">0%</span>
+          </div>
+          <input type="range" id="slider-discount" class="range-slider" min="0" max="40" step="5" value="0">
+        </div>
+      </div>
+
+      <!-- Right Column: Net Profit Hero & Waterfall Ledger -->
+      <div class="glass-panel metrics-display-card">
+        <div class="panel-title">
+          <span>Real-Time Profit Velocity</span>
+          <span style="font-size: 0.8rem; color: var(--emerald-accent);">Guaranteed Precise</span>
+        </div>
+
+        <!-- Hero Net Profit Card -->
+        <div class="profit-hero-banner">
+          <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.2rem;">
+            Estimated Net Profit Per Unit
+          </div>
+          <div id="val-net-profit" class="profit-dollar-val">$13.23</div>
+          <span id="val-net-margin" class="profit-margin-pill">37.8% NET MARGIN</span>
+        </div>
+
+        <!-- Itemized Waterfall Ledger -->
+        <div class="waterfall-ledger">
+          <div class="ledger-item">
+            <span class="ledger-label">Gross Order Revenue</span>
+            <span id="val-gross-rev" class="ledger-value ledger-val-pos">$34.99</span>
+          </div>
+          <div class="ledger-item">
+            <span class="ledger-label">Total Manufacturing COGS (Item + Factory Ship)</span>
+            <span id="val-total-cogs" class="ledger-value ledger-val-neg">-$17.99</span>
+          </div>
+          <div class="ledger-item">
+            <span class="ledger-label">Total Platform &amp; Gateway Fees</span>
+            <span id="val-total-fees" class="ledger-value ledger-val-neg">-$3.77</span>
+          </div>
+          <div class="ledger-item" style="padding-left: 1rem; font-size: 0.78rem;">
+            <span class="ledger-label">• Transaction Fee (6.5%)</span>
+            <span id="val-tx-fee" class="ledger-value ledger-val-neg">-$2.27</span>
+          </div>
+          <div class="ledger-item" style="padding-left: 1rem; font-size: 0.78rem;">
+            <span class="ledger-label">• Payment Processing (3% + $0.25)</span>
+            <span id="val-pp-fee" class="ledger-value ledger-val-neg">-$1.30</span>
+          </div>
+          <div class="ledger-item" style="padding-left: 1rem; font-size: 0.78rem;">
+            <span class="ledger-label">• Offsite Ads Attribution</span>
+            <span id="val-offsite-fee" class="ledger-value ledger-val-neg">-$0.00</span>
+          </div>
+        </div>
+
+        <!-- Strategic Pricing Recommendations -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; text-align: center;">
+          <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0.6rem 0.3rem;">
+            <div style="font-size: 0.68rem; color: var(--text-dim); text-transform: uppercase;">Break-Even</div>
+            <div id="val-breakeven-price" style="font-family: var(--font-mono); font-weight: 700; color: var(--gold-primary); font-size: 0.95rem;">$20.38</div>
+          </div>
+          <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0.6rem 0.3rem;">
+            <div style="font-size: 0.68rem; color: var(--text-dim); text-transform: uppercase;">35% Target</div>
+            <div id="val-target35-price" style="font-family: var(--font-mono); font-weight: 700; color: var(--emerald-accent); font-size: 0.95rem;">$33.23</div>
+          </div>
+          <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0.6rem 0.3rem;">
+            <div style="font-size: 0.68rem; color: var(--text-dim); text-transform: uppercase;">50% Target</div>
+            <div id="val-target50-price" style="font-family: var(--font-mono); font-weight: 700; color: var(--cyan-accent); font-size: 0.95rem;">$45.41</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Side-by-Side Platform Profitability Comparison -->
+    <section class="glass-panel" style="margin-bottom: 2.5rem;" aria-label="Platform Comparison">
+      <div class="panel-title">
+        <span>Cross-Marketplace Net Profit Comparison</span>
+        <span style="font-size: 0.8rem; color: var(--gold-secondary);">Side-by-Side</span>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+        See exactly how much you take home selling the exact same physical product across organic search, paid marketplace ads, and your direct Shopify storefront.
+      </p>
+
+      <div id="comparison-container" class="comparison-grid">
+        <!-- Dynamic Platform Comparison Cards -->
+      </div>
+    </section>
+
+    <!-- Paywall Section for Full Bulk Matrix & Coupon Stress Engine -->
+    <section class="paywall-wrapper">
+      <div id="paywall-wrapper" class="paywall-content-locked">
+        <div class="glass-panel">
+          <div class="panel-title">
+            <span>Coupon Discount Stress Matrix &amp; Bulk Pricing Engine</span>
+            <button id="export-csv-btn" class="btn btn-primary btn-sm">📊 Export Pricing Matrix (.CSV)</button>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Automated stress-testing evaluates whether standard 10% to 30% discount coupons push your store below the 15% safety threshold.
+          </p>
+
+          <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem;">
+            <thead>
+              <tr style="border-bottom: 1px solid var(--border-subtle); color: var(--text-dim); font-size: 0.75rem; text-transform: uppercase;">
+                <th style="padding: 0.5rem;">Discount</th>
+                <th style="padding: 0.5rem;">Sale Price</th>
+                <th style="padding: 0.5rem;">Net Profit</th>
+                <th style="padding: 0.5rem;">Net Margin</th>
+                <th style="padding: 0.5rem;">Safety Status</th>
+              </tr>
+            </thead>
+            <tbody id="coupon-table-body">
+              <!-- Dynamic rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Paywall Lock Overlay -->
+      <div id="paywall-overlay" class="paywall-overlay">
+        <div class="paywall-card">
+          <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🔒</div>
+          <h2 class="paywall-card-title">Unlock Full Bulk Matrix &amp; Stress Suite</h2>
+          <p class="paywall-card-desc">
+            Instantly export bulk pricing CSVs, simulate international VAT tariffs, and stress-test high-volume store catalog margins.
+          </p>
+          <ul class="paywall-features-list">
+            <li><span class="check-icon">✓</span> 1-Click CSV bulk export of full catalog pricing matrices</li>
+            <li><span class="check-icon">✓</span> Multi-currency conversion &amp; UK/EU VAT pass-through calculator</li>
+            <li><span class="check-icon">✓</span> Coupon discount safety analyzer &amp; break-even guardrails</li>
+            <li><span class="check-icon">✓</span> 100% In-browser financial execution with zero server logging</li>
+            <li><span class="check-icon">✓</span> Commercial license for multiple personal &amp; client storefronts</li>
+            <li><span class="check-icon">✓</span> Lifetime access with zero recurring monthly subscription fees</li>
+          </ul>
+          <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
+            <a href="https://buy.stripe.com/5kA8wQ3rT6rS8h2dQQ" target="_blank" rel="noopener" class="btn btn-primary">
+              ⚡ Stripe Pay $19 Lifetime
+            </a>
+            <a href="https://depay.com/pay?integration=428790dd-7ad1-407c-8ecf-c048c77a4cb8&receiver=GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK&amount=19" target="_blank" rel="noopener" class="btn btn-solana">
+              ◎ Solana $19
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- License Activation Modal -->
+  <div id="license-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.25rem;">Activate Pro License</h3>
+        <button id="close-license-modal-btn" style="background: none; border: none; color: var(--text-muted); font-size: 1.4rem; cursor: pointer;">&times;</button>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Enter your Stripe purchase email or license key to permanently unlock Pro features on this browser.
+      </p>
+      <input type="text" id="license-key-input" class="text-input" placeholder="e.g. neal@nealfrazier.tech or KEY-XXXX-XXXX">
+      <div id="license-status" style="font-size: 0.82rem; margin-bottom: 1rem; min-height: 1.2rem;"></div>
+      <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+        <button id="activate-key-btn" class="btn btn-primary">Activate License</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>Engineered by Neal Frazier Tech (<a href="https://github.com/1nc0gn30" target="_blank" rel="noopener">@1nc0gn30</a>) • <a href="https://nullai.tech" target="_blank" rel="noopener">NullAI Platform</a></p>
+    <div class="footer-links">
+      <a href="/terms.html">Terms</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/support.html">Support</a>
+      <a href="https://github.com/1nc0gn30/pod-margin-sentinel" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/hero_canvas.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

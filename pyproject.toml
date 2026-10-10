@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pod-margin-sentinel"
+version = "1.0.0"
+description = "Autonomous POD Profit Sentinel & Break-Even Matrix across Etsy, Shopify, and TikTok Shop"
+authors = [{ name = "Neal Frazier", email = "neal@nealfrazier.tech" }]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+pod-margin-sentinel = "pod_margin_sentinel.cli:main"

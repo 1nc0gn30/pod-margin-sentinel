@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="goldShield" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFDF70" />
+      <stop offset="50%" stop-color="#E5A93C" />
+      <stop offset="100%" stop-color="#B45309" />
+    </linearGradient>
+    <linearGradient id="innerGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" />
+      <stop offset="100%" stop-color="#090D16" />
+    </linearGradient>
+    <filter id="bloom" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <rect width="100" height="100" rx="22" fill="#07080D" />
+  <rect x="2" y="2" width="96" height="96" rx="20" stroke="url(#goldShield)" stroke-width="2" stroke-opacity="0.6" />
+  <!-- Financial Sentinel Shield Shape -->
+  <path d="M 50 16 L 76 26 C 76 54 50 78 50 78 C 50 78 24 54 24 26 Z" fill="url(#innerGlow)" stroke="url(#goldShield)" stroke-width="2" />
+  <!-- Kinetic Growth Curve / Trend Line -->
+  <path d="M 32 54 L 42 44 L 52 49 L 68 33" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#bloom)" />
+  <circle cx="68" cy="33" r="3.5" fill="#10B981" />
+  <!-- Center Dollar Currency Symbol -->
+  <text x="50" y="68" font-family="'Space Grotesk', monospace" font-size="20" font-weight="800" fill="#FFDF70" text-anchor="middle" filter="url(#bloom)">%</text>
+</svg>
