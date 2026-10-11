@@ -67,6 +67,8 @@
 
   const licenseModal = document.getElementById("license-modal");
   const openLicenseModalBtn = document.getElementById("open-license-modal-btn");
+  const btnHeaderKey = document.getElementById("btnHeaderKey");
+  const paywallKeyBtn = document.getElementById("paywall-key-btn");
   const closeLicenseModalBtn = document.getElementById("close-license-modal-btn");
   const licenseKeyInput = document.getElementById("license-key-input");
   const activateKeyBtn = document.getElementById("activate-key-btn");
@@ -78,14 +80,33 @@
       localStorage.setItem("margin_sentinel_pro_licensed", "true");
     }
 
-    if (localStorage.getItem("margin_sentinel_pro_licensed") === "true") {
+    const isLicensed = localStorage.getItem("margin_sentinel_pro_licensed") === "true" ||
+                       localStorage.getItem("pro_licensed") === "true";
+
+    if (isLicensed) {
       state.isProLicensed = true;
-      if (proBadge) proBadge.style.display = "inline-flex";
+      if (proBadge) {
+        proBadge.textContent = "⭐ PRO ACTIVE";
+        proBadge.classList.add("active");
+        proBadge.style.display = "inline-flex";
+      }
       if (paywallWrapper) {
         paywallWrapper.classList.remove("paywall-content-locked");
         paywallWrapper.classList.add("paywall-content-unlocked");
       }
       if (paywallOverlay) paywallOverlay.style.display = "none";
+    } else {
+      state.isProLicensed = false;
+      if (proBadge) {
+        proBadge.textContent = "FREE TIER";
+        proBadge.classList.remove("active");
+        proBadge.style.display = "inline-flex";
+      }
+      if (paywallWrapper) {
+        paywallWrapper.classList.add("paywall-content-locked");
+        paywallWrapper.classList.remove("paywall-content-unlocked");
+      }
+      if (paywallOverlay) paywallOverlay.style.display = "flex";
     }
   }
 
@@ -283,34 +304,51 @@
       });
     }
 
-    // Export CSV
-    if (exportCsvBtn) {
-      exportCsvBtn.addEventListener("click", () => {
-        if (!requireProLicense()) return;
-        const csvContent = "data:text/csv;charset=utf-8,Platform,Retail,COGS,Fees,NetProfit,NetMargin\n" +
-          Object.keys(PLATFORMS).map(k => {
-            const p = PLATFORMS[k];
-            const g = state.retail + state.charged_ship;
-            const c = state.wholesale + state.shipping;
-            const f = (g * p.tx) + (g * p.pp + p.pp_fix) + p.list_fix + (g * p.ads);
-            const net = g - f - c;
-            const m = (net / g) * 100;
-            return `"${p.name}",${g.toFixed(2)},${c.toFixed(2)},${f.toFixed(2)},${net.toFixed(2)},${m.toFixed(1)}%`;
-          }).join("\n");
+    // Export CSV Handlers & Action Interceptors
+    function handleExportCsv(e) {
+      if (e) e.preventDefault();
+      if (!requireProLicense()) return;
+      const csvContent = "data:text/csv;charset=utf-8,Platform,Retail,COGS,Fees,NetProfit,NetMargin\n" +
+        Object.keys(PLATFORMS).map(k => {
+          const p = PLATFORMS[k];
+          const g = state.retail + state.charged_ship;
+          const c = state.wholesale + state.shipping;
+          const f = (g * p.tx) + (g * p.pp + p.pp_fix) + p.list_fix + (g * p.ads);
+          const net = g - f - c;
+          const m = (net / g) * 100;
+          return `"${p.name}",${g.toFixed(2)},${c.toFixed(2)},${f.toFixed(2)},${net.toFixed(2)},${m.toFixed(1)}%`;
+        }).join("\n");
 
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", `pod_pricing_matrix_${Date.now()}.csv`);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      });
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `pod_pricing_matrix_${Date.now()}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
 
-    // Modal
+    if (exportCsvBtn) exportCsvBtn.addEventListener("click", handleExportCsv);
+    const btnExportQuick = document.getElementById("btn-export-quick");
+    if (btnExportQuick) btnExportQuick.addEventListener("click", handleExportCsv);
+    const btnExportComparison = document.getElementById("btn-export-comparison");
+    if (btnExportComparison) btnExportComparison.addEventListener("click", handleExportCsv);
+
+    // Modal Open/Close Controls
     if (openLicenseModalBtn) {
       openLicenseModalBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (licenseModal) licenseModal.style.display = "flex";
+      });
+    }
+    if (btnHeaderKey) {
+      btnHeaderKey.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (licenseModal) licenseModal.style.display = "flex";
+      });
+    }
+    if (paywallKeyBtn) {
+      paywallKeyBtn.addEventListener("click", (e) => {
         e.preventDefault();
         if (licenseModal) licenseModal.style.display = "flex";
       });
@@ -328,7 +366,7 @@
 
     // License Activation
     if (activateKeyBtn && licenseKeyInput) {
-      activateKeyBtn.addEventListener("click", () => {
+      const handleActivation = () => {
         const key = licenseKeyInput.value.trim();
         if (key.length >= 6) {
           localStorage.setItem("margin_sentinel_pro_licensed", "true");
@@ -340,15 +378,41 @@
           setTimeout(() => {
             if (licenseModal) licenseModal.style.display = "none";
             checkProStatus();
-          }, 1200);
+          }, 800);
         } else {
           if (licenseStatusEl) {
             licenseStatusEl.textContent = "❌ Please enter a valid license key or receipt email.";
             licenseStatusEl.style.color = "#EF4444";
           }
         }
+      };
+
+      activateKeyBtn.addEventListener("click", handleActivation);
+      licenseKeyInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          handleActivation();
+        }
       });
     }
+
+    // DePay Web3 Solana Trigger
+    document.querySelectorAll(".btn-depay-trigger").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        if (window.DePayButtons && typeof window.DePayButtons.init === "function") {
+          e.preventDefault();
+          try {
+            window.DePayButtons.init({
+              integration: "428790dd-7ad1-407c-8ecf-c048c77a4cb8",
+              receiver: "GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK",
+              amount: 19
+            });
+          } catch (err) {
+            window.open(btn.href, "_blank");
+          }
+        }
+      });
+    });
   }
 
   // Initialize

@@ -113,14 +113,24 @@ body::before {
 }
 
 .pro-active-badge {
-  display: none;
+  display: inline-flex;
+  align-items: center;
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #10B981, #059669);
-  color: #FFFFFF;
-  padding: 0.35rem 0.85rem;
+  background: rgba(229, 169, 60, 0.12);
+  border: 1px solid rgba(229, 169, 60, 0.3);
+  color: var(--gold-primary);
+  padding: 0.3rem 0.75rem;
   border-radius: 9999px;
+  letter-spacing: 0.04em;
+  transition: all 0.3s ease;
+}
+
+.pro-active-badge.active {
+  background: linear-gradient(135deg, #10B981, #059669);
+  border-color: #10B981;
+  color: #FFFFFF;
   box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
 }
 
@@ -717,10 +727,12 @@ body::before {
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: 14px;
-  max-width: 440px;
+  max-width: 500px;
   width: 100%;
-  padding: 2rem;
+  padding: 1.75rem;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .text-input {
