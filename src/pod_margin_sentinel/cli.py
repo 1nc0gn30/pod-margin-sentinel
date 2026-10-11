@@ -46,7 +46,7 @@ def main():
     p_be.add_argument("--json", action="store_true", help="Output raw JSON")
 
     # Command: coupon
-    p_coup = subparsers.add_parser("coupon", help="Stress-test standard coupon discounts (10%-30%) for margin safety")
+    p_coup = subparsers.add_parser("coupon", help="Stress-test standard coupon discounts (10%%-30%%) for margin safety")
     p_coup.add_argument("--retail", type=float, required=True, help="Current retail price in USD")
     p_coup.add_argument("--wholesale", type=float, required=True, help="Wholesale cost in USD")
     p_coup.add_argument("--shipping", type=float, required=True, help="Factory shipping in USD")

@@ -70,3 +70,11 @@ class TestMarginMath(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestCliHelp(unittest.TestCase):
+    def test_help_renders_for_all_commands(self):
+        import subprocess
+        env = dict(os.environ, PYTHONPATH=os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
+        p = subprocess.run([sys.executable, "-m", "pod_margin_sentinel.cli", "--help"], capture_output=True, text=True, env=env)
+        self.assertEqual(p.returncode, 0, p.stderr)
