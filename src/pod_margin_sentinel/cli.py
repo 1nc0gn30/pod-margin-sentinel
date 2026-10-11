@@ -66,6 +66,13 @@ def main():
     p_mcp = subparsers.add_parser("mcp", help="Launch Antigravity MCP stdio server")
 
     args = parser.parse_args()
+    try:
+        _run(args, parser)
+    except ValueError as e:
+        raise SystemExit(f"error: {e}")
+
+
+def _run(args, parser):
 
     if args.command == "calc":
         res = MarginEngine.calculate_order_profit(
@@ -148,7 +155,10 @@ def main():
         else:
             print("=" * 70)
             print(f"COUPON DISCOUNT STRESS TEST (Retail: ${args.retail:.2f} | Min Safe Margin: {args.min_margin}%)")
-            print(f"Maximum Safe Coupon: {res['max_safe_coupon_percent']:.0f}% OFF")
+            print(f"Maximum Safe Coupon: {res['max_safe_coupon_percent']:.0f}% OFF (standard tiers)")
+            print(f"Exact Max Safe Discount: {res['exact_max_safe_discount_percent']:.1f}% OFF")
+            if not res["base_price_is_safe"]:
+                print(f"WARNING: full price already misses the {args.min_margin}% floor ({res['base_margin_percent']:.1f}% margin)")
             print("=" * 70)
             for d in res["discount_scenarios"]:
                 icon = "✓" if d["is_safe"] else "✗"

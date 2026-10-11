@@ -8,6 +8,20 @@ net margin velocity, break-even thresholds, and discount elasticity.
 from typing import Dict, Any, List
 from .fee_structures import PLATFORM_FEES, PlatformFeeSpec, CATALOG_BENCHMARKS
 
+def get_fee_spec(platform_key: str) -> PlatformFeeSpec:
+    """Look up a fee schedule; unknown keys raise instead of silently using Etsy fees."""
+    try:
+        return PLATFORM_FEES[platform_key]
+    except KeyError:
+        raise ValueError(f"Unknown platform {platform_key!r}. Use one of: {', '.join(PLATFORM_FEES)}") from None
+
+
+def _require_non_negative(**values: float) -> None:
+    for name, v in values.items():
+        if v is None or v < 0:
+            raise ValueError(f"{name} must be >= 0 (got {v!r})")
+
+
 class MarginEngine:
     """Core financial logic for Print-on-Demand commerce operations."""
 
@@ -22,7 +36,12 @@ class MarginEngine:
         ad_spend_per_order: float = 0.0
     ) -> Dict[str, Any]:
         """Calculates granular profit and loss metrics for a single POD transaction."""
-        fee_spec = PLATFORM_FEES.get(platform_key, PLATFORM_FEES["etsy_organic"])
+        fee_spec = get_fee_spec(platform_key)
+        _require_non_negative(retail_price=retail_price, wholesale_cost=wholesale_cost,
+                              factory_shipping=factory_shipping, shipping_charged=shipping_charged,
+                              ad_spend_per_order=ad_spend_per_order)
+        if not 0.0 <= discount_percent <= 100.0:
+            raise ValueError("discount_percent must be between 0 and 100")
 
         discount_mult = max(0.0, 1.0 - (discount_percent / 100.0))
         discounted_item_price = round(retail_price * discount_mult, 2)
@@ -32,7 +51,10 @@ class MarginEngine:
         tx_fee = round(gross_revenue * fee_spec.transaction_percent, 2)
         pp_fee = round((gross_revenue * fee_spec.payment_processing_percent) + fee_spec.payment_processing_fixed, 2)
         listing_fee = fee_spec.listing_fixed
-        offsite_fee = round(gross_revenue * fee_spec.offsite_ads_percent, 2)
+        offsite_fee = gross_revenue * fee_spec.offsite_ads_percent
+        if fee_spec.offsite_ads_cap:
+            offsite_fee = min(offsite_fee, fee_spec.offsite_ads_cap)
+        offsite_fee = round(offsite_fee, 2)
         ad_spend = round(ad_spend_per_order, 2)
 
         total_fees = round(tx_fee + pp_fee + listing_fee + offsite_fee + ad_spend, 2)
@@ -104,7 +126,9 @@ class MarginEngine:
         platform_key: str = "etsy_organic"
     ) -> float:
         """Solves for exact retail price needed to achieve exactly $0.00 net profit."""
-        fee_spec = PLATFORM_FEES.get(platform_key, PLATFORM_FEES["etsy_organic"])
+        fee_spec = get_fee_spec(platform_key)
+        _require_non_negative(wholesale_cost=wholesale_cost, factory_shipping=factory_shipping,
+                              shipping_charged=shipping_charged)
         total_cogs = wholesale_cost + factory_shipping
         fixed_fees = fee_spec.payment_processing_fixed + fee_spec.listing_fixed
         variable_rate = fee_spec.transaction_percent + fee_spec.payment_processing_percent + fee_spec.offsite_ads_percent
@@ -114,7 +138,7 @@ class MarginEngine:
         # Retail = (total_cogs + fixed_fees) / (1 - variable_rate) - ShipCharged
         denominator = 1.0 - variable_rate
         if denominator <= 0:
-            return round(total_cogs * 2.0, 2)
+            raise ValueError("platform variable fees are >= 100%; no break-even price exists")
 
         break_even = (total_cogs + fixed_fees) / denominator - shipping_charged
         return max(0.0, round(break_even, 2))
@@ -129,7 +153,9 @@ class MarginEngine:
         platform_key: str = "etsy_organic"
     ) -> float:
         """Calculates target retail price required to achieve specified net margin percentage."""
-        fee_spec = PLATFORM_FEES.get(platform_key, PLATFORM_FEES["etsy_organic"])
+        fee_spec = get_fee_spec(platform_key)
+        _require_non_negative(wholesale_cost=wholesale_cost, factory_shipping=factory_shipping,
+                              shipping_charged=shipping_charged)
         total_cogs = wholesale_cost + factory_shipping
         fixed_fees = fee_spec.payment_processing_fixed + fee_spec.listing_fixed
         variable_rate = fee_spec.transaction_percent + fee_spec.payment_processing_percent + fee_spec.offsite_ads_percent
@@ -141,7 +167,10 @@ class MarginEngine:
         # Revenue = (total_cogs + fixed_fees) / (1 - variable_rate - target_rate)
         denominator = 1.0 - variable_rate - target_rate
         if denominator <= 0:
-            return round(total_cogs * 3.0, 2)
+            raise ValueError(
+                f"A {target_margin_percent}% net margin is impossible on {fee_spec.platform_name}: "
+                f"fees take {variable_rate * 100:.1f}% of revenue, so the max margin is under {(1 - variable_rate) * 100:.1f}%."
+            )
 
         recommended_gross = (total_cogs + fixed_fees) / denominator
         recommended_price = recommended_gross - shipping_charged
@@ -175,6 +204,33 @@ class MarginEngine:
                 "health_tier": calc["profitability"]["health_tier"]
             })
         return results
+
+    @classmethod
+    def max_safe_discount_percent(
+        cls,
+        retail_price: float,
+        wholesale_cost: float,
+        factory_shipping: float,
+        shipping_charged: float = 0.0,
+        platform_key: str = "etsy_organic",
+        min_acceptable_margin: float = 15.0,
+    ) -> float:
+        """Largest discount (0.1% resolution) that still keeps net margin >= the floor.
+        Returns 0.0 when even the full price misses the floor."""
+        def margin(d: float) -> float:
+            return cls.calculate_order_profit(retail_price, wholesale_cost, factory_shipping,
+                                              shipping_charged, platform_key,
+                                              discount_percent=d)["profitability"]["net_margin_percent"]
+        if margin(0.0) < min_acceptable_margin:
+            return 0.0
+        lo, hi = 0.0, 100.0  # margin falls as discount rises: bisect the boundary
+        for _ in range(40):
+            mid = (lo + hi) / 2
+            if margin(mid) >= min_acceptable_margin:
+                lo = mid
+            else:
+                hi = mid
+        return float(int(lo * 10) / 10)  # floor to 0.1% so the result is always safe
 
     @classmethod
     def evaluate_coupon_safety(
@@ -214,9 +270,16 @@ class MarginEngine:
                 "status": "APPROVED" if is_safe else ("RISK" if margin > 0 else "UNACCEPTABLE")
             })
 
+        base = cls.calculate_order_profit(retail_price, wholesale_cost, factory_shipping,
+                                          shipping_charged, platform_key)["profitability"]["net_margin_percent"]
         return {
             "retail_price": retail_price,
             "min_acceptable_margin": min_acceptable_margin,
+            "base_margin_percent": base,
+            "base_price_is_safe": base >= min_acceptable_margin,
             "max_safe_coupon_percent": max_safe_coupon,
+            "exact_max_safe_discount_percent": cls.max_safe_discount_percent(
+                retail_price, wholesale_cost, factory_shipping, shipping_charged,
+                platform_key, min_acceptable_margin),
             "discount_scenarios": evaluations
         }

@@ -17,6 +17,7 @@ class PlatformFeeSpec:
     listing_fixed: float
     offsite_ads_percent: float
     notes: str
+    offsite_ads_cap: float = 0.0  # max Offsite Ads fee per order in USD (0 = no cap)
 
 PLATFORM_FEES: Dict[str, PlatformFeeSpec] = {
     "etsy_organic": PlatformFeeSpec(
@@ -35,7 +36,8 @@ PLATFORM_FEES: Dict[str, PlatformFeeSpec] = {
         payment_processing_fixed=0.25,
         listing_fixed=0.20,
         offsite_ads_percent=0.15,             # 15% mandatory for sellers < $10k/yr
-        notes="Customer discovered via Google/Facebook/Pinterest ads placed by Etsy."
+        notes="Customer discovered via Google/Facebook/Pinterest ads placed by Etsy.",
+        offsite_ads_cap=100.0,                # Etsy caps the Offsite Ads fee at $100/order
     ),
     "etsy_offsite_ads_12": PlatformFeeSpec(
         platform_name="Etsy (Offsite Ads 12% Tier)",
@@ -44,7 +46,8 @@ PLATFORM_FEES: Dict[str, PlatformFeeSpec] = {
         payment_processing_fixed=0.25,
         listing_fixed=0.20,
         offsite_ads_percent=0.12,             # 12% discounted tier for sellers > $10k/yr
-        notes="High-volume seller discounted Offsite Ads attribution tier."
+        notes="High-volume seller discounted Offsite Ads attribution tier.",
+        offsite_ads_cap=100.0
     ),
     "shopify_payments": PlatformFeeSpec(
         platform_name="Shopify (Shopify Payments Basic)",
