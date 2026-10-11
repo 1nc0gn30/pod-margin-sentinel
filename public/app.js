@@ -62,7 +62,7 @@
 
   const paywallWrapper = document.getElementById("paywall-wrapper");
   const paywallOverlay = document.getElementById("paywall-overlay");
-  const proBadge = document.getElementById("pro-badge");
+  const proBadge = document.getElementById("licenseBadge") || document.getElementById("pro-badge");
   const exportCsvBtn = document.getElementById("export-csv-btn");
 
   const licenseModal = document.getElementById("license-modal");
@@ -74,36 +74,73 @@
   const activateKeyBtn = document.getElementById("activate-key-btn");
   const licenseStatusEl = document.getElementById("license-status");
 
+  // Sovereign Toast Notification Engine
+  function showToast(message, type = "info") {
+    let container = document.getElementById("toast-container");
+    if (!container) {
+      container = document.createElement("div");
+      container.id = "toast-container";
+      container.className = "toast-container";
+      document.body.appendChild(container);
+    }
+    const toast = document.createElement("div");
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+    container.appendChild(toast);
+    setTimeout(() => {
+      toast.style.opacity = "0";
+      toast.style.transform = "translateY(10px)";
+      setTimeout(() => toast.remove(), 300);
+    }, 3500);
+  }
+
   function checkProStatus() {
     const params = new URLSearchParams(window.location.search);
     if (params.get("licensed") === "true") {
       localStorage.setItem("margin_sentinel_pro_licensed", "true");
+      localStorage.setItem("pro_licensed", "true");
+      localStorage.setItem("agent_margin_sentinel_pro", "true");
+      localStorage.setItem("zoth_margin_sentinel_licensed", "true");
+      const cleanUrl = window.location.origin + window.location.pathname;
+      window.history.replaceState({}, document.title, cleanUrl);
+      setTimeout(() => showToast("⭐ Pro License Activated via Checkout!", "success"), 250);
     }
 
     const isLicensed = localStorage.getItem("margin_sentinel_pro_licensed") === "true" ||
+                       localStorage.getItem("margin_sentinel_license") !== null ||
+                       localStorage.getItem("agent_margin_sentinel_pro") === "true" ||
+                       localStorage.getItem("zoth_margin_sentinel_licensed") === "true" ||
                        localStorage.getItem("pro_licensed") === "true";
 
+    const salesBanner = document.getElementById("salesBanner");
+    if (salesBanner) {
+      salesBanner.style.display = isLicensed ? "none" : "block";
+    }
+
+    const badge = document.getElementById("licenseBadge") || document.getElementById("pro-badge");
     if (isLicensed) {
       state.isProLicensed = true;
-      if (proBadge) {
-        proBadge.textContent = "⭐ PRO ACTIVE";
-        proBadge.classList.add("active");
-        proBadge.style.display = "inline-flex";
+      if (badge) {
+        badge.textContent = "⭐ PRO ACTIVE";
+        badge.classList.add("active");
+        badge.style.display = "inline-flex";
       }
       if (paywallWrapper) {
         paywallWrapper.classList.remove("paywall-content-locked");
+        paywallWrapper.classList.remove("paywall-blur");
         paywallWrapper.classList.add("paywall-content-unlocked");
       }
       if (paywallOverlay) paywallOverlay.style.display = "none";
     } else {
       state.isProLicensed = false;
-      if (proBadge) {
-        proBadge.textContent = "FREE TIER";
-        proBadge.classList.remove("active");
-        proBadge.style.display = "inline-flex";
+      if (badge) {
+        badge.textContent = "⚡ FREE TIER";
+        badge.classList.remove("active");
+        badge.style.display = "inline-flex";
       }
       if (paywallWrapper) {
         paywallWrapper.classList.add("paywall-content-locked");
+        paywallWrapper.classList.add("paywall-blur");
         paywallWrapper.classList.remove("paywall-content-unlocked");
       }
       if (paywallOverlay) paywallOverlay.style.display = "flex";
@@ -368,13 +405,19 @@
     if (activateKeyBtn && licenseKeyInput) {
       const handleActivation = () => {
         const key = licenseKeyInput.value.trim();
-        if (key.length >= 6) {
+        const valid = key.length >= 6 || key.toUpperCase().includes("PRO") || key.includes("@");
+        if (valid) {
           localStorage.setItem("margin_sentinel_pro_licensed", "true");
+          localStorage.setItem("margin_sentinel_license", key);
+          localStorage.setItem("agent_margin_sentinel_pro", "true");
+          localStorage.setItem("zoth_margin_sentinel_licensed", "true");
+          localStorage.setItem("pro_licensed", "true");
           state.isProLicensed = true;
           if (licenseStatusEl) {
             licenseStatusEl.textContent = "✅ License successfully activated! Permanent Pro active.";
             licenseStatusEl.style.color = "#10B981";
           }
+          showToast("⭐ Pro License Activated!", "success");
           setTimeout(() => {
             if (licenseModal) licenseModal.style.display = "none";
             checkProStatus();
@@ -384,6 +427,7 @@
             licenseStatusEl.textContent = "❌ Please enter a valid license key or receipt email.";
             licenseStatusEl.style.color = "#EF4444";
           }
+          showToast("Please enter a valid license key or receipt email.", "error");
         }
       };
 

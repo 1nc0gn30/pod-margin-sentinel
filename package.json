@@ -1,0 +1,13 @@
+{
+  "name": "pod-margin-sentinel",
+  "version": "2.5.0",
+  "description": "Multi-channel POD break-even solver & 2026 fee simulator for Etsy, Shopify, and TikTok Shop",
+  "main": "public/app.js",
+  "scripts": {
+    "test": "pytest",
+    "test:ui": "python3 scripts/verify_ui.py"
+  },
+  "keywords": ["pod", "margin", "etsy", "shopify", "print-on-demand", "break-even", "fee-simulator", "sovereign"],
+  "author": "Neal Frazier Tech (@1nc0gn30)",
+  "license": "MIT"
+}

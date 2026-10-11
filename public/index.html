@@ -97,12 +97,12 @@
   <header class="app-header">
     <div class="header-container">
       <a href="/" class="brand-group">
-        <img src="/favicon.svg" alt="POD Margin Sentinel Shield Logo" width="34" height="34" class="brand-logo">
+        <img src="/assets/icon.png" alt="POD Margin Sentinel Shield Logo" width="34" height="34" class="brand-logo">
         <span class="brand-title">POD Margin Sentinel</span>
-        <span class="version-badge">v1.0.0</span>
+        <span class="version-badge">v2.5 SOVEREIGN</span>
       </a>
       <div class="header-actions">
-        <span id="pro-badge" class="pro-active-badge">FREE TIER</span>
+        <span id="licenseBadge" class="pro-active-badge" data-alias="pro-badge">⚡ FREE TIER</span>
         <button id="btnHeaderKey" class="btn btn-secondary btn-sm" type="button">Key / Pro</button>
         <a href="#sentinel" class="btn btn-secondary btn-sm">Launch Sentinel</a>
       </div>
@@ -110,7 +110,7 @@
   </header>
 
   <!-- Sales Funnel Banner -->
-  <section class="sales-funnel-banner" aria-label="Founding Member Offer">
+  <section class="sales-funnel-banner" id="salesBanner" aria-label="Founding Member Offer">
     <div class="banner-content">
       <span class="urgency-pill">FOUNDING SPRINT</span>
       <span class="banner-text">
@@ -321,7 +321,7 @@
 
     <!-- Paywall Section for Full Bulk Matrix & Coupon Stress Engine -->
     <section class="paywall-wrapper">
-      <div id="paywall-wrapper" class="paywall-content-locked">
+      <div id="paywall-wrapper" class="paywall-content-locked paywall-blur">
         <div class="glass-panel">
           <div class="panel-title">
             <span>Coupon Discount Stress Matrix &amp; Bulk Pricing Engine</span>
@@ -381,7 +381,7 @@
   </main>
 
   <!-- Pro Paywall & License Activation Modal -->
-  <div id="license-modal" class="modal-backdrop">
+  <div id="license-modal" class="modal-backdrop" data-alias="paywall-modal">
     <div class="modal-card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
         <h3 style="font-family: var(--font-heading); font-size: 1.25rem;">⭐ Unlock Pro Commercial License</h3>
@@ -432,6 +432,8 @@
       <a href="https://github.com/1nc0gn30/pod-margin-sentinel" target="_blank" rel="noopener">GitHub</a>
     </div>
   </footer>
+
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
 
   <!-- Scripts -->
   <script src="/hero_canvas.js"></script>
