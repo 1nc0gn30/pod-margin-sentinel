@@ -35,3 +35,10 @@ clean `error:` line) instead of silently returning a guess.
 ```bash
 python3 -m pytest -q tests/
 ```
+
+## Network exposure
+
+The server binds to `127.0.0.1` by default. To reach it from other devices,
+opt in explicitly with `--host 0.0.0.0` (or set `ZOTH_BIND_HOST=0.0.0.0`; an IP
+in `HOST` is also honoured, a plain hostname is ignored) and only on a trusted
+network.

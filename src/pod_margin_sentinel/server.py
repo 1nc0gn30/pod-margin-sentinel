@@ -3,6 +3,7 @@
 Zero-dependency Python 3.10+ Standard Library HTTP & Static Server.
 """
 
+from typing import Optional
 import http.server
 import json
 import os
@@ -14,6 +15,24 @@ from typing import Dict, Any
 
 from .fee_structures import PLATFORM_FEES, CATALOG_BENCHMARKS, get_benchmarks_list
 from .margin_engine import MarginEngine
+
+
+def _default_bind_host() -> str:
+    """Bind address: localhost unless explicitly opted in via $ZOTH_BIND_HOST or
+    $HOST (IP literal only; zsh sets HOST to the hostname) or --host."""
+    import ipaddress, os
+    for var in ("ZOTH_BIND_HOST", "HOST"):
+        val = os.environ.get(var, "").strip()
+        if val == "localhost":
+            return "127.0.0.1"
+        if val:
+            try:
+                ipaddress.ip_address(val)
+                return val
+            except ValueError:
+                pass
+    return "127.0.0.1"
+
 
 PORT = int(os.environ.get("MARGIN_SENTINEL_PORT", 8120))
 START_TIME = time.time()
@@ -185,10 +204,11 @@ class MarginSentinelHandler(http.server.SimpleHTTPRequestHandler):
 
         self._send_json({"error": f"Endpoint not found: {path}"}, status=404)
 
-def run_server(port: int = PORT):
-    server_address = ("0.0.0.0", port)
+def run_server(port: int = PORT, host: Optional[str] = None):
+    host = host or _default_bind_host()
+    server_address = (host, port)
     httpd = http.server.ThreadingHTTPServer(server_address, MarginSentinelHandler)
-    print(f"🚀 POD Margin Sentinel listening on http://0.0.0.0:{port}")
+    print(f"🚀 POD Margin Sentinel listening on http://{host}:{port}")
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
@@ -196,4 +216,9 @@ def run_server(port: int = PORT):
         httpd.server_close()
 
 if __name__ == "__main__":
-    run_server()
+    import argparse
+    _ap = argparse.ArgumentParser(description="Run the HTTP server and web UI")
+    _ap.add_argument("--host", default=None, help="Host interface (default: 127.0.0.1 or $ZOTH_BIND_HOST; use 0.0.0.0 only on trusted networks)")
+    _ap.add_argument("--port", type=int, default=PORT)
+    _a = _ap.parse_args()
+    run_server(port=_a.port, host=_a.host)
