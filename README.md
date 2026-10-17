@@ -1,5 +1,9 @@
 # POD Margin Sentinel
 
+> ⚡ **Live Web Application**: [https://pod-margin-sentinel.netlify.app](https://pod-margin-sentinel.netlify.app)  
+> 💳 **Unlock Pro Lifetime License ($19 One-Time, $0/mo)**: **[Instant Pro Unlock via Stripe](https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L)** *(Use promo code `FOUNDER25` for 25% off)*  
+> 🏆 **All-Access Sovereign Pro Bundle (All 44 Tools — $49 Lifetime)**: **[Get All 44 Studios via Stripe](https://buy.stripe.com/eVq14m5k16hW4Le0xWfw40M)**
+
 Exact per-order P&L for print-on-demand products across Etsy (organic and
 Offsite Ads 15% / 12% tiers), Shopify Payments and TikTok Shop: platform fees,
 COGS, net margin, break-even and target-margin pricing, and coupon safety.
