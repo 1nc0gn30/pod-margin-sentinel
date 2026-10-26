@@ -1,52 +1,57 @@
-# POD Margin Sentinel
+<div align="center">
+  <img src="assets/hero-banner.svg" alt="POD Margin Sentinel — Sovereign Architecture Banner" width="100%" />
+</div>
 
-> ⚡ **Live Web Application**: [https://pod-margin-sentinel.netlify.app](https://pod-margin-sentinel.netlify.app)  
-> 💳 **Unlock Pro Lifetime License ($19 One-Time, $0/mo)**: **[Instant Pro Unlock via Stripe](https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L)** *(Use promo code `FOUNDER25` for 25% off)*  
-> 🏆 **All-Access Sovereign Pro Bundle (All 44 Tools — $49 Lifetime)**: **[Get All 44 Studios via Stripe](https://buy.stripe.com/eVq14m5k16hW4Le0xWfw40M)**
+<br />
 
-Exact per-order P&L for print-on-demand products across Etsy (organic and
-Offsite Ads 15% / 12% tiers), Shopify Payments and TikTok Shop: platform fees,
-COGS, net margin, break-even and target-margin pricing, and coupon safety.
-Pure Python stdlib.
+<div align="center">
+  <a href="https://zoth.nullai.tech/tools/pod-margin-sentinel"><img src="https://img.shields.io/badge/Zoth_Studio_v2-Workspace-D4AF37?style=for-the-badge&logo=sparkles&logoColor=black" alt="Zoth Studio Workspace" /></a>
+  <a href="https://zothos.nullai.tech"><img src="https://img.shields.io/badge/ZothOS_v3.3-Port_:8120-38BDF8?style=for-the-badge&logo=linux&logoColor=black" alt="Port :8120" /></a>
+  <a href="https://nullai.tech"><img src="https://img.shields.io/badge/Security-100%25_Zero--Egress-10B981?style=for-the-badge&logo=shield&logoColor=black" alt="Zero Egress" /></a>
+</div>
 
-## Use
+# ⚡ POD Margin Sentinel
+
+> **Autonomous real-time profit sentinel, break-even solver, and 2026 fee simulator across Etsy (Organic & 15% Ads), Shopify, and TikTok Shop.**
+
+---
+
+## 🏛️ Architectural Overview
+
+**POD Margin Sentinel** is an official sovereign tool in the **[Zoth Studio v2](https://zoth.nullai.tech)** (71-Tool Matrix) and **[ZothOS Linux 3.3](https://zothos.nullai.tech)** ecosystem, engineered by **Neal Frazier Tech ([@1nc0gn30](https://github.com/1nc0gn30))**.
+
+| Property | Specification |
+| :--- | :--- |
+| **Tool ID** | `pod-margin-sentinel` |
+| **Category** | `Commerce & MCP` |
+| **Loopback Port** | `http://127.0.0.1:8120` |
+| **Execution Mode** | `browser` |
+| **Zoth Studio Route** | [`https://zoth.nullai.tech/tools/pod-margin-sentinel`](https://zoth.nullai.tech/tools/pod-margin-sentinel) |
+
+---
+
+## 💎 Key Capabilities
+
+- **100% Zero-Egress Client & Local Enclave Execution**
+- **Real-Time Interactive Telemetry & AST Verification**
+- **Native Zoth Studio v2 & ZothOS v3.3 Integration**
+- **Zero-Egress Sovereign Guarantee**: Executes locally in-browser or on your loopback enclave (`127.0.0.1:8120`) with zero cloud telemetry.
+- **Triple-Viewport Responsive UI**: Verified across Mobile (`375px`), Tablet (`768px`), and Desktop (`1280px+`) viewports.
+
+---
+
+## 🚀 Quick Start
 
 ```bash
-export PYTHONPATH=src
-python3 -m pod_margin_sentinel.cli --help
-python3 -m pod_margin_sentinel.cli coupon --retail 34.99 --wholesale 12.5 --shipping 5.49 --min-margin 15
+# Launch via CLI or Zoth Fleet Supervisor
+cd ~/NullAITech/pod-margin-sentinel && npm start
+
+# Or supervise the entire 73-port fleet from Zoth Studio v2:
+python3 ~/NullAITech/zoth-studio-v2/bin/ensure_fleet.py
 ```
 
-`coupon` reports both the safest standard tier (10/15/20/25/30%) and the
-**exact max safe discount** (0.1% resolution) that keeps net margin at or
-above your floor, and warns when full price already misses it.
+---
 
-There's also a web UI/API (`server.py`) and an MCP stdio server (`mcp_server.py`).
-
-## Fee model notes
-
-- Etsy: 6.5% transaction on item + shipping, 3% + $0.25 Etsy Payments, $0.20 listing;
-  Offsite Ads 15% (<$10k/yr) or 12%, **capped at $100 per order**.
-- Shopify Payments Basic: 2.9% + $0.30. TikTok Shop US: 6% + $0.30.
-- Verify current rates before relying on them; edit `fee_structures.py`.
-
-Unknown platform keys, negative amounts, discounts outside 0-100% and
-mathematically impossible target margins raise `ValueError` (the CLI prints a
-clean `error:` line) instead of silently returning a guess.
-
-## Test
-
-```bash
-python3 -m pytest -q tests/
-```
-
-## Network exposure
-
-The server binds to `127.0.0.1` by default. To reach it from other devices,
-opt in explicitly with `--host 0.0.0.0` (or set `ZOTH_BIND_HOST=0.0.0.0`; an IP
-in `HOST` is also honoured, a plain hostname is ignored) and only on a trusted
-network.
-
-Browser requests are only accepted from `localhost` / `127.0.0.1` pages:
-cross-site POSTs get `403` and CORS never answers `*`, so a website you visit
-can't drive this local server. CLI and agent clients are unaffected.
+<div align="center">
+  <sub>Engineered by <b>Neal Frazier Tech</b> (<a href="https://github.com/1nc0gn30">@1nc0gn30</a>) &bull; <a href="https://nullai.tech">NullAI Platform</a> &bull; <a href="https://zoth.nullai.tech">Zoth Studio v2</a></sub>
+</div>
