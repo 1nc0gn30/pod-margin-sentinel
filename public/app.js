@@ -95,56 +95,27 @@
   }
 
   function checkProStatus() {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("licensed") === "true") {
-      localStorage.setItem("margin_sentinel_pro_licensed", "true");
-      localStorage.setItem("pro_licensed", "true");
-      localStorage.setItem("agent_margin_sentinel_pro", "true");
-      localStorage.setItem("zoth_margin_sentinel_licensed", "true");
-      const cleanUrl = window.location.origin + window.location.pathname;
-      window.history.replaceState({}, document.title, cleanUrl);
-      setTimeout(() => showToast("⭐ Pro License Activated via Checkout!", "success"), 250);
-    }
-
-    const isLicensed = localStorage.getItem("margin_sentinel_pro_licensed") === "true" ||
-                       localStorage.getItem("margin_sentinel_license") !== null ||
-                       localStorage.getItem("agent_margin_sentinel_pro") === "true" ||
-                       localStorage.getItem("zoth_margin_sentinel_licensed") === "true" ||
-                       localStorage.getItem("pro_licensed") === "true";
-
+    state.isProLicensed = true;
     const salesBanner = document.getElementById("salesBanner");
     if (salesBanner) {
-      salesBanner.style.display = isLicensed ? "none" : "block";
+      salesBanner.style.display = "none";
     }
 
     const badge = document.getElementById("licenseBadge") || document.getElementById("pro-badge");
-    if (isLicensed) {
-      state.isProLicensed = true;
-      if (badge) {
-        badge.textContent = "⭐ PRO ACTIVE";
-        badge.classList.add("active");
-        badge.style.display = "inline-flex";
-      }
-      if (paywallWrapper) {
-        paywallWrapper.classList.remove("paywall-content-locked");
-        paywallWrapper.classList.remove("paywall-blur");
-        paywallWrapper.classList.add("paywall-content-unlocked");
-      }
-      if (paywallOverlay) paywallOverlay.style.display = "none";
-    } else {
-      state.isProLicensed = false;
-      if (badge) {
-        badge.textContent = "⚡ FREE TIER";
-        badge.classList.remove("active");
-        badge.style.display = "inline-flex";
-      }
-      if (paywallWrapper) {
-        paywallWrapper.classList.add("paywall-content-locked");
-        paywallWrapper.classList.add("paywall-blur");
-        paywallWrapper.classList.remove("paywall-content-unlocked");
-      }
-      if (paywallOverlay) paywallOverlay.style.display = "flex";
+    if (badge) {
+      badge.textContent = "✦ 100% UNLOCKED";
+      badge.classList.add("active");
+      badge.style.display = "inline-flex";
+      badge.style.background = "rgba(16, 185, 129, 0.2)";
+      badge.style.color = "var(--emerald, #10B981)";
+      badge.style.borderColor = "var(--emerald, #10B981)";
     }
+    if (paywallWrapper) {
+      paywallWrapper.classList.remove("paywall-content-locked");
+      paywallWrapper.classList.remove("paywall-blur");
+      paywallWrapper.classList.add("paywall-content-unlocked");
+    }
+    if (paywallOverlay) paywallOverlay.style.display = "none";
   }
 
   function recalculate() {

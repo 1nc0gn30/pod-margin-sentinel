@@ -1,0 +1,159 @@
+/* ==========================================================================
+   POD Margin Sentinel - Wave Stylesheet (wave.css)
+   Visual Idea: The Sentinel Precision Readout - high-contrast telemetry
+   hierarchy, tactile calibrated controls, and glowing amber focus rings.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Clearer Type Hierarchy & Working Tool Surface
+   -------------------------------------------------------------------------- */
+
+.panel-title {
+  letter-spacing: -0.01em;
+}
+
+.input-label-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.4rem;
+}
+
+.input-label-text {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.input-value-display {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+.preset-pill {
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.platform-card-btn {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.profit-dollar-val {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.profit-margin-pill {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.03em;
+}
+
+.ledger-item {
+  align-items: center;
+}
+
+.ledger-label {
+  font-size: 0.82rem;
+  letter-spacing: 0.01em;
+}
+
+.ledger-value {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+  font-weight: 700;
+}
+
+table th {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+table td {
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   2. Visible Focus Rings (WCAG 2.4.7 Compliant)
+   -------------------------------------------------------------------------- */
+
+:focus-visible {
+  outline: 2px solid var(--gold-primary);
+  outline-offset: 2px;
+}
+
+.range-slider:focus-visible {
+  outline: 2px solid var(--gold-primary);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.btn:focus-visible,
+.preset-pill:focus-visible,
+.platform-card-btn:focus-visible,
+.text-input:focus-visible {
+  outline: 2px solid var(--gold-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--gold-glow);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--gold-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   3. Result Appearance Motion (Transform / Opacity Only)
+   -------------------------------------------------------------------------- */
+
+@keyframes resultAppear {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.profit-hero-banner {
+  animation: resultAppear 280ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+#comparison-container > div {
+  animation: resultAppear 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+#coupon-table-body tr {
+  animation: resultAppear 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* --------------------------------------------------------------------------
+   4. Reduced Motion Preference
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .profit-hero-banner,
+  #comparison-container > div,
+  #coupon-table-body tr {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}

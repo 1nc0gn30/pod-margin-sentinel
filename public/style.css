@@ -34,6 +34,8 @@ html, body {
   font-family: var(--font-body);
   line-height: 1.6;
   overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -632,10 +634,10 @@ body::before {
 
 .paywall-content-locked,
 .paywall-blur {
-  filter: blur(6px);
-  pointer-events: none;
-  user-select: none;
-  transition: filter 0.4s ease;
+  filter: none !important;
+  pointer-events: auto !important;
+  user-select: auto !important;
+  transition: none !important;
 }
 
 .paywall-content-unlocked {
@@ -644,20 +646,14 @@ body::before {
   user-select: auto !important;
 }
 
-.paywall-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 20;
-  background: rgba(7, 8, 13, 0.5);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border-radius: 14px;
+.paywall-overlay,
+#license-modal,
+#open-license-modal-btn,
+.founding-banner,
+#salesBanner,
+#paywall-overlay {
+  display: none !important;
+}
 }
 
 .paywall-card {
