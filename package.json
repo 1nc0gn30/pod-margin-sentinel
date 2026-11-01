@@ -8,6 +8,6 @@
     "test:ui": "python3 scripts/verify_ui.py"
   },
   "keywords": ["pod", "margin", "etsy", "shopify", "print-on-demand", "break-even", "fee-simulator", "sovereign"],
-  "author": "Neal Frazier Tech (@1nc0gn30)",
+  "author": "1nc0gn30 (@1nc0gn30)",
   "license": "MIT"
 }

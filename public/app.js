@@ -411,13 +411,13 @@
       });
     }
 
-    // DePay Web3 Solana Trigger
-    document.querySelectorAll(".btn-depay-trigger").forEach((btn) => {
+    // Solana Tip Web3 Solana Trigger
+    document.querySelectorAll(".btn-solana_tip-trigger").forEach((btn) => {
       btn.addEventListener("click", (e) => {
-        if (window.DePayButtons && typeof window.DePayButtons.init === "function") {
+        if (window.SolanaTipButtons && typeof window.SolanaTipButtons.init === "function") {
           e.preventDefault();
           try {
-            window.DePayButtons.init({
+            window.SolanaTipButtons.init({
               integration: "428790dd-7ad1-407c-8ecf-c048c77a4cb8",
               receiver: "GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK",
               amount: 19

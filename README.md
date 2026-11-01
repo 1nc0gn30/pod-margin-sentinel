@@ -19,7 +19,7 @@
 
 ## 🏛️ Architectural Overview
 
-**POD Margin Sentinel** is a financial defense and margin engineering workstation in the **[Zoth Studio v2](https://zoth.nullai.tech)** arsenal and **[ZothOS Linux 3.3](https://zothos.nullai.tech)** ecosystem, engineered by **Neal Frazier Tech ([@1nc0gn30](https://github.com/1nc0gn30))**.
+**POD Margin Sentinel** is a financial defense and margin engineering workstation in the **[Zoth Studio v2](https://zoth.nullai.tech)** arsenal and **[ZothOS Linux 3.3](https://zothos.nullai.tech)** ecosystem, engineered by **1nc0gn30 • NullAI ([@1nc0gn30](https://github.com/1nc0gn30))**.
 
 | Property | Specification |
 | :--- | :--- |
@@ -92,7 +92,7 @@ pod-margin-sentinel server --port 8120
 
 ## ☕ 100% Free & Open-Access Support Architecture
 
-Every tool engineered by Neal Frazier Tech is **100% free, open, and unlocked by default**. There are zero paywalls, zero license locks, and zero feature gates.
+Every tool engineered by 1nc0gn30 • NullAI is **100% free, open, and unlocked by default**. There are zero paywalls, zero license locks, and zero feature gates.
 
 If this tool protects your profit margins or automates your pricing strategy, consider supporting development:
 
@@ -102,5 +102,5 @@ If this tool protects your profit margins or automates your pricing strategy, co
 ---
 
 <div align="center">
-  <sub>Engineered by <b>Neal Frazier Tech</b> (<a href="https://github.com/1nc0gn30">@1nc0gn30</a>) &bull; <a href="https://nullai.tech">NullAI Platform</a> &bull; <a href="https://zoth.nullai.tech">Zoth Studio v2</a></sub>
+  <sub>Engineered by <b>1nc0gn30 • NullAI</b> (<a href="https://github.com/1nc0gn30">@1nc0gn30</a>) &bull; <a href="https://nullai.tech">NullAI Platform</a> &bull; <a href="https://zoth.nullai.tech">Zoth Studio v2</a></sub>
 </div>

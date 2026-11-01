@@ -4,4 +4,4 @@ Zero-dependency Python 3.10+ standard library package.
 """
 
 __version__ = "1.0.0"
-__author__ = "Neal Frazier Tech"
+__author__ = "1nc0gn30 • NullAI"
