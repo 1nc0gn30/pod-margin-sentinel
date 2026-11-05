@@ -344,6 +344,22 @@
   <!-- Scripts -->
   <script src="/hero_canvas.js"></script>
   <script src="/app.js"></script>
-  <script src="/assets/sovereign-upgrade.js" defer></script>
+  
+
+  <script src="/sovereign_tutorial.js"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", function() {
+      if (window.createSovereignTutorial) {
+        window.createSovereignTutorial({
+          toolId: "pod-margin-sentinel",
+          toolName: "POD Margin Sentinel",
+          tagline: "Financial profit calculator and pricing governor for Print-on-Demand products!",
+          accentColor: "#10B981",
+          steps: [{"icon": "\ud83d\udcb5", "title": "Protect Your Profits", "desc": "Never sell an item at a loss! Sentinel tracks base product costs, shipping rates, and marketplace fees."}, {"icon": "\ud83d\udcc8", "title": "Smart Margin Sliders", "desc": "Set your target profit (e.g. 35% margin) and the tool calculates the exact retail price to charge."}, {"icon": "\ud83d\udecd\ufe0f", "title": "Multi-Provider Comparisons", "desc": "Compare production prices between Printify, Gelato, and Printful side-by-side to find the cheapest printer."}]
+        });
+      }
+    });
+  </script>
+
 </body>
 </html>
