@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="POD Margin Sentinel: Profit margin calculator, break-even solver, fee simulator, and MCP server" width="100%" />
+  <img src="assets/hero-banner.svg" alt="POD Margin Sentinel: Profit margin calculator, break-even solver, fee simulator, and MCP server" width="100%" />
 </p>
 
 # POD Margin Sentinel
