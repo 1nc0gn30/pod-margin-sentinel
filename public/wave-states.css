@@ -70,17 +70,9 @@
   box-shadow: 0 0 0 3px var(--gold-glow);
 }
 
-#close-license-modal-btn:focus-visible {
-  outline: 2px solid var(--gold-primary);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
 
-#paywall-key-btn:focus-visible {
-  outline: 2px solid var(--gold-primary);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
+
+
 
 .brand-group:focus-visible {
   outline: 2px solid var(--gold-primary);
@@ -213,23 +205,13 @@
   background: rgba(0, 0, 0, 0.5);
 }
 
-#close-license-modal-btn {
-  transition: color 140ms ease, transform 140ms ease;
-}
 
-#close-license-modal-btn:hover {
-  color: var(--text-main);
-  transform: scale(1.12);
-}
 
-#close-license-modal-btn:active {
-  transform: scale(0.95);
-}
 
-#paywall-key-btn:hover {
-  color: #FFFFFF;
-  text-decoration: underline;
-}
+
+
+
+
 
 .brand-group:hover .brand-logo {
   filter: drop-shadow(0 0 14px var(--gold-glow));
@@ -272,14 +254,9 @@
   box-shadow: 0 0 0 2px var(--gold-glow);
 }
 
-.paywall-card {
-  transition: box-shadow 200ms ease, border-color 200ms ease;
-}
 
-.paywall-card:hover {
-  border-color: var(--gold-primary);
-  box-shadow: 0 14px 45px rgba(0, 0, 0, 0.85), 0 0 36px var(--gold-glow);
-}
+
+
 
 /* --------------------------------------------------------------------------
    3. Empty State Telemetry Presentation (:empty)
@@ -316,9 +293,7 @@
   letter-spacing: 0.04em;
 }
 
-#license-status:empty {
-  display: none;
-}
+
 
 .toast-container:empty,
 #toast-container:empty {
@@ -341,12 +316,7 @@
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 16px rgba(239, 68, 68, 0.2);
 }
 
-#license-status {
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  line-height: 1.4;
-  transition: opacity 180ms ease;
-}
+
 
 /* --------------------------------------------------------------------------
    5. Accessible Motion Preference (prefers-reduced-motion)
@@ -369,8 +339,5 @@
   .platform-card-btn:hover,
   .platform-card-btn:active,
   .comparison-card:hover,
-  #close-license-modal-btn:hover,
-  #close-license-modal-btn:active {
-    transform: none !important;
-  }
+  
 }

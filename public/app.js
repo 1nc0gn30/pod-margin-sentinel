@@ -60,19 +60,8 @@
   const comparisonContainer = document.getElementById("comparison-container");
   const couponContainer = document.getElementById("coupon-table-body");
 
-  const paywallWrapper = document.getElementById("paywall-wrapper");
-  const paywallOverlay = document.getElementById("paywall-overlay");
   const proBadge = document.getElementById("licenseBadge") || document.getElementById("pro-badge");
   const exportCsvBtn = document.getElementById("export-csv-btn");
-
-  const licenseModal = document.getElementById("license-modal");
-  const openLicenseModalBtn = document.getElementById("open-license-modal-btn");
-  const btnHeaderKey = document.getElementById("btnHeaderKey");
-  const paywallKeyBtn = document.getElementById("paywall-key-btn");
-  const closeLicenseModalBtn = document.getElementById("close-license-modal-btn");
-  const licenseKeyInput = document.getElementById("license-key-input");
-  const activateKeyBtn = document.getElementById("activate-key-btn");
-  const licenseStatusEl = document.getElementById("license-status");
 
   // Sovereign Toast Notification Engine
   function showToast(message, type = "info") {
@@ -94,13 +83,7 @@
     }, 3500);
   }
 
-  function checkProStatus() {
-    state.isProLicensed = true;
-    const salesBanner = document.getElementById("salesBanner");
-    if (salesBanner) {
-      salesBanner.style.display = "none";
-    }
-
+  function initOpenAccessBadge() {
     const badge = document.getElementById("licenseBadge") || document.getElementById("pro-badge");
     if (badge) {
       badge.textContent = "✦ 100% UNLOCKED";
@@ -110,12 +93,6 @@
       badge.style.color = "var(--emerald, #10B981)";
       badge.style.borderColor = "var(--emerald, #10B981)";
     }
-    if (paywallWrapper) {
-      paywallWrapper.classList.remove("paywall-content-locked");
-      paywallWrapper.classList.remove("paywall-blur");
-      paywallWrapper.classList.add("paywall-content-unlocked");
-    }
-    if (paywallOverlay) paywallOverlay.style.display = "none";
   }
 
   function recalculate() {
@@ -238,12 +215,6 @@
     });
   }
 
-  function requireProLicense() {
-    if (state.isProLicensed) return true;
-    if (licenseModal) licenseModal.style.display = "flex";
-    return false;
-  }
-
   function initEvents() {
     // Preset buttons
     document.querySelectorAll(".preset-pill").forEach((btn) => {
@@ -315,7 +286,6 @@
     // Export CSV Handlers & Action Interceptors
     function handleExportCsv(e) {
       if (e) e.preventDefault();
-      if (!requireProLicense()) return;
       const csvContent = "data:text/csv;charset=utf-8,Platform,Retail,COGS,Fees,NetProfit,NetMargin\n" +
         Object.keys(PLATFORMS).map(k => {
           const p = PLATFORMS[k];
@@ -342,96 +312,12 @@
     const btnExportComparison = document.getElementById("btn-export-comparison");
     if (btnExportComparison) btnExportComparison.addEventListener("click", handleExportCsv);
 
-    // Modal Open/Close Controls
-    if (openLicenseModalBtn) {
-      openLicenseModalBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        if (licenseModal) licenseModal.style.display = "flex";
-      });
-    }
-    if (btnHeaderKey) {
-      btnHeaderKey.addEventListener("click", (e) => {
-        e.preventDefault();
-        if (licenseModal) licenseModal.style.display = "flex";
-      });
-    }
-    if (paywallKeyBtn) {
-      paywallKeyBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        if (licenseModal) licenseModal.style.display = "flex";
-      });
-    }
-    if (closeLicenseModalBtn) {
-      closeLicenseModalBtn.addEventListener("click", () => {
-        if (licenseModal) licenseModal.style.display = "none";
-      });
-    }
-    if (licenseModal) {
-      licenseModal.addEventListener("click", (e) => {
-        if (e.target === licenseModal) licenseModal.style.display = "none";
-      });
-    }
 
-    // License Activation
-    if (activateKeyBtn && licenseKeyInput) {
-      const handleActivation = () => {
-        const key = licenseKeyInput.value.trim();
-        const valid = key.length >= 6 || key.toUpperCase().includes("PRO") || key.includes("@");
-        if (valid) {
-          localStorage.setItem("margin_sentinel_pro_licensed", "true");
-          localStorage.setItem("margin_sentinel_license", key);
-          localStorage.setItem("agent_margin_sentinel_pro", "true");
-          localStorage.setItem("zoth_margin_sentinel_licensed", "true");
-          localStorage.setItem("pro_licensed", "true");
-          state.isProLicensed = true;
-          if (licenseStatusEl) {
-            licenseStatusEl.textContent = "✅ License successfully activated! Permanent Pro active.";
-            licenseStatusEl.style.color = "#10B981";
-          }
-          showToast("⭐ Pro License Activated!", "success");
-          setTimeout(() => {
-            if (licenseModal) licenseModal.style.display = "none";
-            checkProStatus();
-          }, 800);
-        } else {
-          if (licenseStatusEl) {
-            licenseStatusEl.textContent = "❌ Please enter a valid license key or receipt email.";
-            licenseStatusEl.style.color = "#EF4444";
-          }
-          showToast("Please enter a valid license key or receipt email.", "error");
-        }
-      };
 
-      activateKeyBtn.addEventListener("click", handleActivation);
-      licenseKeyInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          handleActivation();
-        }
-      });
-    }
-
-    // Solana Tip Web3 Solana Trigger
-    document.querySelectorAll(".btn-solana_tip-trigger").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        if (window.SolanaTipButtons && typeof window.SolanaTipButtons.init === "function") {
-          e.preventDefault();
-          try {
-            window.SolanaTipButtons.init({
-              integration: "428790dd-7ad1-407c-8ecf-c048c77a4cb8",
-              receiver: "GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK",
-              amount: 19
-            });
-          } catch (err) {
-            window.open(btn.href, "_blank");
-          }
-        }
-      });
-    });
-  }
+}
 
   // Initialize
-  checkProStatus();
+  initOpenAccessBadge();
   recalculate();
   initEvents();
 })();

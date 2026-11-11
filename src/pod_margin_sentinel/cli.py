@@ -12,12 +12,60 @@ from .margin_engine import MarginEngine
 from .server import run_server
 from .mcp_server import run_mcp
 
+
+def cmd_status(host: str = "127.0.0.1", port: int = 8120, as_json: bool = False) -> int:
+    import urllib.request
+    url = f"http://{host}:{port}/health"
+    live_info = None
+    try:
+        with urllib.request.urlopen(url, timeout=2.0) as resp:
+            live_info = json.loads(resp.read().decode("utf-8"))
+    except Exception:
+        pass
+
+    benchmarks = get_benchmarks_list()
+    platforms = list(PLATFORM_FEES.keys())
+
+    data = {
+        "status": "online" if live_info else "standby",
+        "service": "pod-margin-sentinel",
+        "version": "2.5.0",
+        "port": port,
+        "benchmarks_count": len(benchmarks),
+        "platforms_count": len(platforms),
+        "supported_platforms": platforms,
+        "license": "MIT",
+        "daemon": live_info,
+    }
+
+    if as_json:
+        print(json.dumps(data, indent=2))
+        return 0
+
+    print("POD MARGIN SENTINEL v2.5.0")
+    print(f"Daemon Status: {data['status'].upper()} ({url})")
+    print(f"Platforms:     {len(platforms)} fee schedules ({', '.join(platforms[:3])}...)")
+    print(f"Benchmarks:    {len(benchmarks)} standard products")
+    print("License:       MIT (100% Free & Open-Source)")
+    return 0
+
 def main():
     parser = argparse.ArgumentParser(
         prog="pod-margin-sentinel",
         description="Autonomous POD Profit Sentinel & Break-Even Matrix across Etsy, Shopify, and TikTok Shop"
     )
+    parser.add_argument("-v", "--version", action="version", version="pod-margin-sentinel 2.5.0")
+    parser.add_argument("--status", action="store_true", help="Print local service status and configuration")
+    parser.add_argument("--json", action="store_true", help="Output status/telemetry as JSON")
+    parser.add_argument("--host", default="127.0.0.1", help="Host interface (default: 127.0.0.1)")
+    parser.add_argument("--port", type=int, default=8120, help="Port to check (default: 8120)")
     subparsers = parser.add_subparsers(dest="command", help="Available subcommands")
+
+    # Command: status
+    p_status = subparsers.add_parser("status", help="Check local service and API configuration status")
+    p_status.add_argument("--host", default="127.0.0.1", help="Host interface")
+    p_status.add_argument("--port", type=int, default=8120, help="Port (default: 8120)")
+    p_status.add_argument("--json", action="store_true", help="Output status report as JSON")
 
     # Command: calc
     p_calc = subparsers.add_parser("calc", help="Calculate granular profit metrics for a POD order")
@@ -66,6 +114,8 @@ def main():
     p_mcp = subparsers.add_parser("mcp", help="Launch Antigravity MCP stdio server")
 
     args = parser.parse_args()
+    if getattr(args, "status", False) or (getattr(args, "json", False) and not args.command):
+        return cmd_status(host=getattr(args, "host", "127.0.0.1"), port=getattr(args, "port", 8120), as_json=bool(getattr(args, "json", False)))
     try:
         _run(args, parser)
     except ValueError as e:
@@ -73,6 +123,10 @@ def main():
 
 
 def _run(args, parser):
+
+    if args.command == "status":
+        cmd_status(host=args.host, port=args.port, as_json=args.json)
+        return
 
     if args.command == "calc":
         res = MarginEngine.calculate_order_profit(

@@ -42,7 +42,7 @@
 - **Audio**: Rapid four-beat data chime and pneumatic snap.
 
 ### Scene 4: Instant Sovereign Unlock (11.5s – 15.0s)
-- **Visual**: Frosted glass paywall dissolves. Header badge illuminates `⭐ PRO ACTIVE`. Bulk CSV matrix exports with a click.
+- **Visual**: Interactive margin engine activates. Header badge illuminates `✦ 100% UNLOCKED`. Bulk CSV matrix exports with a click.
 - **CTA**: "POD Margin Sentinel • $0 Lifetime Founding Access".
 - **Attribution**: "Engineered by 1nc0gn30 • NullAI • nullai.tech".
 - **Audio**: Satisfying major chord chime resolve.

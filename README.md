@@ -1,163 +1,121 @@
-<div align="center">
-  <img src="assets/banner.png" alt="POD Margin Sentinel — Sovereign Architecture Banner" width="100%" />
-</div>
+<p align="center">
+  <img src="assets/banner.png" alt="POD Margin Sentinel: Profit margin calculator, break-even solver, fee simulator, and MCP server" width="100%" />
+</p>
 
-<br />
+# POD Margin Sentinel
 
-<div align="center">
-  <a href="https://zoth.nullai.tech/tools/pod-margin-sentinel"><img src="https://img.shields.io/badge/Zoth_Studio_v2-Workspace-D4AF37?style=for-the-badge&logo=sparkles&logoColor=black" alt="Zoth Studio Workspace" /></a>
-  <a href="http://127.0.0.1:8120"><img src="https://img.shields.io/badge/ZothOS_v3.3-Port_:8120-38BDF8?style=for-the-badge&logo=linux&logoColor=black" alt="Port :8120" /></a>
-  <a href="https://nullai.tech"><img src="https://img.shields.io/badge/Security-100%25_Zero--Egress-10B981?style=for-the-badge&logo=shield&logoColor=black" alt="Zero Egress" /></a>
-  <a href="https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X"><img src="https://img.shields.io/badge/☕_Buy_Us_a_Coffee-Stripe-D4AF37?style=for-the-badge" alt="Buy Us a Coffee" /></a>
-</div>
+Zero-dependency Python 3.10+ financial margin engine and fee calculator for print-on-demand sellers: marketplace fee simulation across Etsy, Shopify, and TikTok Shop, break-even price solving, coupon stress testing, wholesale catalog benchmarks, loopback HTTP workstation, and a 5-tool MCP stdio server.
 
-# ⚡ POD Margin Sentinel (v2.5.0)
+- Zoth Studio v2 dossier: https://zoth.nullai.tech/tools/pod-margin-sentinel
+- Local workstation: `http://127.0.0.1:8120`
+- Runtime dependencies: none (Python standard library only)
+- License: MIT
 
-> **Autonomous real-time profit sentinel, break-even solver, and 2026 fee simulator across Etsy (Organic & 15% Ads), Shopify, and TikTok Shop.**
+## What It Does
 
----
-
-## 🏛️ Architectural Overview
-
-**POD Margin Sentinel** is a financial defense and margin engineering workstation in the **[Zoth Studio v2](https://zoth.nullai.tech)** arsenal and **[ZothOS Linux 3.3](https://zothos.nullai.tech)** ecosystem, engineered by **1nc0gn30 • NullAI ([@1nc0gn30](https://github.com/1nc0gn30))**.
-
-| Property | Specification |
-| :--- | :--- |
-| **Tool ID** | `pod-margin-sentinel` |
-| **Category** | `Commerce & MCP` |
-| **Local Port** | `http://127.0.0.1:8120` |
-| **Execution Mode** | Native Python Daemon & Browser Client |
-| **Zoth Studio Route** | `http://127.0.0.1:3000/tools/pod-margin-sentinel` |
-| **License** | 100% Free & Open Access (Zero Paywalls) |
-
----
-
-## 💎 What It Does & How It Works
-
-- **2026 Marketplace Fee Dissection**: Models complex hidden merchant fee waterfalls across all major POD sales channels:
+- **Multi-channel fee modeling**: Calculates granular transaction, gateway payment processing, listing, and marketing ad fees for:
   - `etsy_organic`: 6.5% transaction fee + 3.0% + $0.25 payment processing + $0.20 auto-renew listing fee.
-  - `etsy_offsite_ads_15`: Adds mandatory 15% Offsite Ads tariff for shops under $10,000 threshold.
-  - `etsy_offsite_ads_12`: 12% Offsite Ads tier for high-volume qualifying merchants.
-  - `shopify_payments`: 2.9% + $0.30 payment processing fee (zero marketplace listing or transaction tax).
-  - `tiktok_shop_us`: 6.0% transaction fee (2026 standard) + $0.30 fixed fee per order.
-- **Break-Even & Target Margin Solver**: Inversely solves the exact retail price required to achieve any targeted net margin percentage (e.g. 35%, 50%) after factoring in base blank cost, factory shipping, and channel take rates.
-- **Coupon Discount Stress Tester**: Simulates standard marketing discounts (10%, 15%, 20%, 25%, 30%) to ensure automated promotions never push net profit into negative territory.
-- **Zero-Egress Financial Privacy**: All unit economic models run on loopback (`127.0.0.1:8120`) without exposing merchant revenue, unit margins, or supplier costs.
+  - `etsy_offsite_ads_15`: Standard 15% Etsy Offsite Ads fee tier.
+  - `etsy_offsite_ads_12`: High-volume 12% Etsy Offsite Ads fee tier.
+  - `shopify_payments`: 2.9% + $0.30 credit card gateway processing.
+  - `tiktok_shop`: 6.0% commission + 2.9% payment processing.
+- **Break-even solving**: Calculates exact retail price required to achieve $0.00 net profit after factoring in base manufacturing costs, supplier shipping, and marketplace percentages.
+- **Target margin recommendations**: Solves for necessary retail price to guarantee specific margin floors (e.g., 30%, 40%, 50%, 65%).
+- **Coupon stress testing**: Simulates profitability under standard discount promotions (10%, 15%, 20%, 25%, 30%) and calculates the exact maximum coupon percentage before margins breach an acceptable threshold.
+- **Catalog benchmarks**: Bundled wholesale cost references for standard POD items (tees, hoodies, mugs, canvases, journals) across Printify and Gelato.
 
----
+## How It Works
 
-## 🚀 Quick Start
+```text
+src/pod_margin_sentinel/
+├── fee_structures.py   # Fee schedules and catalog benchmarks
+├── margin_engine.py    # Profitability calculations, break-even solver, coupon stress tester
+├── mcp_server.py       # MCP stdio server (JSON-RPC 2.0: initialize, tools/list, tools/call)
+├── server.py           # Loopback HTTP API + static workstation from public/
+└── cli.py              # `pod-margin-sentinel` entry point
+bin/pod-margin-sentinel      # Runs the CLI from checkout
+public/                      # Browser workstation (calculator, comparison table, coupon matrix)
+```
+
+The HTTP server only accepts browser requests from `localhost` / `127.0.0.1` / `[::1]` origins and binds to `127.0.0.1` by default.
+
+## Install
 
 ```bash
-# Clone and launch the standalone daemon on port 8120
 git clone https://github.com/1nc0gn30/pod-margin-sentinel.git
 cd pod-margin-sentinel
-python3 server.py --port 8120
-
-# Query daemon health and product benchmarks:
-curl -s http://127.0.0.1:8120/health
-curl -s http://127.0.0.1:8120/api/benchmarks
+pip install -e .
 ```
 
----
-
-## 💻 ZothOS CLI & MCP Commands
-
-The sovereign binary `pod-margin-sentinel` is pre-installed in `/usr/local/bin` and `~/.local/bin`:
+Or run directly without installation via the runner script:
 
 ```bash
-# Verify installation & status
-pod-margin-sentinel --version
-pod-margin-sentinel --status
+./bin/pod-margin-sentinel --help
+```
+
+## Configuration
+
+The core margin engine and benchmark lookup run completely offline with no API keys or environment variables required.
+
+Optional environment variables:
+- `MARGIN_SENTINEL_PORT`: Custom listening port for the HTTP daemon (default: `8120`).
+- `ZOTH_BIND_HOST`: Custom bind interface (default: `127.0.0.1`).
+
+## CLI reference
+
+```bash
+# Check service status and catalog benchmarks
+pod-margin-sentinel status
 pod-margin-sentinel --json
 
-# Calculate order profit on Etsy
-pod-margin-sentinel calc --retail 34.99 --wholesale 12.50 --shipping 5.49 --platform etsy_organic
+# Calculate order profit for a Bella+Canvas 3001 on Etsy
+pod-margin-sentinel calc --retail 28.00 --wholesale 9.50 --shipping 4.99 --platform etsy_organic
 
-# Compare profit across all channels side-by-side
-pod-margin-sentinel compare --retail 34.99 --wholesale 12.50 --shipping 5.49
-pod-margin-sentinel compare --retail 34.99 --wholesale 12.50 --shipping 5.49 --json
+# Compare net profits across all platforms side-by-side
+pod-margin-sentinel compare --retail 28.00 --wholesale 9.50 --shipping 4.99
 
-# Solve for break-even and 35% target margin retail price
-pod-margin-sentinel breakeven --wholesale 12.50 --shipping 5.49 --target-margin 35.0
+# Solve for break-even and 35% target margin price
+pod-margin-sentinel breakeven --wholesale 9.50 --shipping 4.99 --target-margin 35.0
 
-# Stress-test promotional coupon discounts
-pod-margin-sentinel coupon --retail 34.99
+# Stress-test promotional coupons against a 15% minimum margin floor
+pod-margin-sentinel coupon --retail 28.00 --wholesale 9.50 --shipping 4.99 --min-margin 15.0
 
-# Launch server daemon
+# List catalog wholesale benchmarks
+pod-margin-sentinel benchmarks
+
+# Launch local HTTP workstation
 pod-margin-sentinel server --port 8120
+
+# Launch MCP stdio server
+pod-margin-sentinel mcp
 ```
 
----
+## MCP/REST reference
 
-## ☕ 100% Free & Open-Access Support Architecture
+### MCP stdio tools
 
-Every tool engineered by 1nc0gn30 • NullAI is **100% free, open, and unlocked by default**. There are zero paywalls, zero license locks, and zero feature gates.
+When registered in an MCP host (such as Antigravity or Claude Desktop):
+- `calculate_order_profit`: Computes gross revenue, fee breakdown, COGS, net dollar profit, and net margin percentage.
+- `compare_all_platforms`: Generates side-by-side comparison across Etsy, Shopify, and TikTok Shop.
+- `calculate_break_even_price`: Solves for zero-dollar net profit price and target margin retail price.
+- `evaluate_coupon_safety`: Tests discount tiers (10% to 30%) against a margin threshold.
+- `list_catalog_benchmarks`: Returns wholesale benchmarks for standard POD items.
 
-If this tool protects your profit margins or automates your pricing strategy, consider supporting development:
+### REST endpoints
 
-- **☕ Buy Us a Coffee (Stripe)**: [https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X](https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X)
-- **◎ Solana Tip Address**: `GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK`
+- `GET /health` - Service health and uptime.
+- `GET /api/benchmarks` - List bundled catalog benchmarks.
+- `GET /api/platforms` - Supported fee schedule names.
+- `POST /api/calculate` - Order profit metrics JSON payload.
+- `POST /api/compare` - Multi-channel comparison JSON payload.
+- `POST /api/breakeven` - Break-even solver JSON payload.
+- `POST /api/coupon` - Coupon evaluation JSON payload.
 
----
+## Port
 
-<div align="center">
-  <sub>Engineered by <b>1nc0gn30 • NullAI</b> (<a href="https://github.com/1nc0gn30">@1nc0gn30</a>) &bull; <a href="https://nullai.tech">NullAI Platform</a> &bull; <a href="https://zoth.nullai.tech">Zoth Studio v2</a></sub>
-</div>
+Default HTTP port: `8120`.
 
----
+## License
 
-## 🏛️ ZothOS v3.4, Zoth Studio v2 & Obsidian Second Brain Ecosystem
-
-```mermaid
-flowchart LR
-    subgraph ZothOS["🐧 ZothOS v3.4 CLI & Braille TUI"]
-        CLI["pod-margin-sentinel --help / --json"]
-        TUI["pod-margin-sentinel-tui<br/>Unicode U+2800 2x4 Braille"]
-    end
-
-    subgraph Workstation["⚡ Sovereign Workstation"]
-        WEB["http://127.0.0.1:8120<br/>REST API & /health"]
-    end
-
-    subgraph Studio["🌌 Zoth Studio v2 & ZothOS-Lite"]
-        GODMODE["http://127.0.0.1:3000/tools/pod-margin-sentinel<br/>God-Mode Workstation"]
-        LITE["http://127.0.0.1:8145<br/>ZothOS-Lite Web Desktop"]
-    end
-
-    subgraph SecondBrain["💎 Obsidian Second Brain & STDP"]
-        TRACKER["http://127.0.0.1:8151<br/>Zoth Obsidian Tracker"]
-        NEURO["http://127.0.0.1:8094<br/>Neuro-Memory STDP Cortex"]
-        NOTE["Studio/Tools/Studio pod-margin-sentinel.md"]
-    end
-
-    CLI --> WEB
-    TUI --> WEB
-    WEB <--> GODMODE
-    WEB <--> LITE
-    WEB --> TRACKER
-    TRACKER <--> NOTE
-    NOTE <--> NEURO
-```
-
-### Cross-Surface Integration Matrix
-
-| Surface | Endpoint / Binary | Capabilities |
-| :--- | :--- | :--- |
-| **Standalone Workstation** | `http://127.0.0.1:8120` | 100% Free & Open-Access Web Deck, live `/health` & REST telemetry |
-| **Zoth Studio v2 Route** | `http://127.0.0.1:3000/tools/pod-margin-sentinel` | Interactive God-Mode component inside Zoth Studio (`https://zoth.nullai.tech`) |
-| **ZothOS v3.4 CLI & TUI** | `pod-margin-sentinel` / `pod-margin-sentinel-tui` | Global binary in `/usr/local/bin/` with Unicode `U+2800` Braille TUI & `--json` output |
-| **ZothOS-Lite Web Desktop** | `http://127.0.0.1:8145` | Browser-native KDE-style window manager & terminal launcher |
-| **Zoth Obsidian Tracker** | `http://127.0.0.1:8151` | Interactive Obsidian Second Brain vault explorer (`~/Documents/Obsidian Vault/Studio/Tools/Studio pod-margin-sentinel.md`) |
-| **Neuro-Memory STDP Cortex** | `http://127.0.0.1:8094` | 3-Factor STDP synaptic memory daemon & 21-tool MCP server |
-
-```bash
-# Inspect CLI & Unicode U+2800 Braille TUI on ZothOS v3.4
-pod-margin-sentinel --help
-pod-margin-sentinel-tui --status
-pod-margin-sentinel-tui --json
-
-# Verify Second Brain Vault & 12-Step Verification Gallery on :8151
-zoth-obsidian-tracker --verify
-```
-
+MIT License. Engineered by [1nc0gn30](https://1nc0gn30.si) • [NullAI Platform](https://nullai.tech). 100% Free and Open-Source.
+Optional tip link: [Buy Us a Coffee](https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X).
