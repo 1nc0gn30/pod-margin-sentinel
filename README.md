@@ -117,5 +117,5 @@ Default HTTP port: `8120`.
 
 ## License
 
-MIT License. Engineered by [1nc0gn30](https://1nc0gn30.si) • [NullAI Platform](https://nullai.tech). 100% Free and Open-Source.
-Optional tip link: [Buy Us a Coffee](https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X).
+MIT License. Engineered by **Neal Frazier Tech (`@1nc0gn30`) • [NullAI Platform](https://nullai.tech)**. Copyright (c) 2026 [Neal Frazier](https://nealfrazier.tech). 100% Free and Open-Access with zero paywalls.
+Optional support: [Buy Us a Coffee (Stripe)](https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X) · Solana Tip: `GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK`.
