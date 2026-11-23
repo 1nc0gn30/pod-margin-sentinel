@@ -28,8 +28,7 @@
     shipping: 5.49,
     charged_ship: 0.0,
     discount: 0.0,
-    platform: "etsy_organic",
-    isProLicensed: false
+    platform: "etsy_organic"
   };
 
   // DOM Elements
